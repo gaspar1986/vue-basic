@@ -7,11 +7,11 @@
         </router-link>
         <div class="head-nav">
           <ul class="nav-list">
-            <li >登录</li>
+            <li @click="aboutLog">登录</li>
             <li class="nav-pile">|</li>
-            <li>注册</li>
+            <li @click="aboutReg">注册</li>
             <li class="nav-pile">|</li>
-            <li>关于</li>
+            <li @click="aboutClick">关于</li>
           </ul>
         </div>
       </div>
@@ -24,15 +24,23 @@
     <div class="app-foot">
       <p>© 2016 fishenal MIT</p>
     </div>
-
+    <my-dialog :isShow="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')">
+      <p>about</p>
+    </my-dialog>
+    <my-dialog :isShow="isShowLogDialog" @on-close="closeDialog('isShowLogDialog')">
+      <p>log</p>
+    </my-dialog>
+    <my-dialog :isShow="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
+      <p>reg</p>
+    </my-dialog>
   </div>
 </template>
 
 <script>
-
+import dialog from './components/dialog.vue'
   export default {
     components: {
-
+      myDialog:dialog
     },
     data () {
       return {
@@ -43,7 +51,18 @@
       }
     },
     methods: {
-
+      aboutClick(){
+        this.isShowAboutDialog = true;
+      },
+      aboutLog(){
+        this.isShowLogDialog = true;
+      },
+      aboutReg(){
+        this.isShowRegDialog = true;
+      },
+      closeDialog(attr){
+          this[attr] = false;
+      }
     }
   }
 </script>
