@@ -28,7 +28,7 @@
       <p>about</p>
     </my-dialog>
     <my-dialog :isShow="isShowLogDialog" @on-close="closeDialog('isShowLogDialog')">
-      <p>log</p>
+      <log-form></log-form>
     </my-dialog>
     <my-dialog :isShow="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
       <p>reg</p>
@@ -38,9 +38,11 @@
 
 <script>
 import dialog from './components/dialog.vue'
+import logForm from './components/logForm.vue'
   export default {
     components: {
-      myDialog:dialog
+      myDialog:dialog,
+      logForm
     },
     data () {
       return {

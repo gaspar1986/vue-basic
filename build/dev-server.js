@@ -23,15 +23,26 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 var compiler = webpack(webpackConfig)
 
-var appData = require('../db.json');
-var getNewList = appData.getNewsList;
-var apiRoutes = express.Router();
-apiRoutes.get('/getNewList',function (req,res) {
-  res.json({
-    getNewList:getNewList
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+var apiRouter = express.Router()
+var fs = require('fs')
+apiRouter.route('/:apiName')
+  .all(function (req, res) {
+    fs.readFile('./db.json', 'utf8', function (err, data) {
+      if (err) throw err
+      var data = JSON.parse(data)
+      if (data[req.params.apiName]) {
+        res.json(data[req.params.apiName])
+      }
+      else {
+        res.send('no such api name')
+      }
+
+    })
   })
-})
-app.use('/api',apiRoutes);
+app.use('/api', apiRouter);
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
   quiet: true
