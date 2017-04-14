@@ -6,11 +6,13 @@
           <img src="./assets/logo.png">
         </router-link>
         <div class="head-nav">
-          <ul class="nav-list">
-            <li @click="aboutLog">登录</li>
-            <li class="nav-pile">|</li>
-            <li @click="aboutReg">注册</li>
-            <li class="nav-pile">|</li>
+          <ul class="nav-list" style="padding-right: 50px;">
+            <li>{{username}}</li>
+            <li v-show="username!==''"class="nav-pile">|</li>
+            <li v-show="username===''" @click="aboutLog">登录</li>
+            <li v-show="username===''" class="nav-pile">|</li>
+            <li v-show="username===''" @click="aboutReg">注册</li>
+            <li v-show="username===''" class="nav-pile">|</li>
             <li @click="aboutClick">关于</li>
           </ul>
         </div>
@@ -28,7 +30,7 @@
       <p>about</p>
     </my-dialog>
     <my-dialog :isShow="isShowLogDialog" @on-close="closeDialog('isShowLogDialog')">
-      <log-form></log-form>
+      <log-form @has-log="onSuccessLog"></log-form>
     </my-dialog>
     <my-dialog :isShow="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
       <p>reg</p>
@@ -64,6 +66,10 @@ import logForm from './components/logForm.vue'
       },
       closeDialog(attr){
           this[attr] = false;
+      },
+      onSuccessLog(data){
+        this.username = data.username;
+        this.closeDialog('isShowLogDialog')
       }
     }
   }
